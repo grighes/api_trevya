@@ -7,9 +7,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var errorHandler = require('errorhandler')
+var errorHandler = require('errorhandler');
 var pg = require('pg');
 var connection = require('./db');
+const Promise = require('bluebird');
 
 // calling models just to inserting fake data
 var User = require('./models/User');
@@ -56,7 +57,7 @@ app.use('/users', usersRouter);
 
 // all routes will eventually hit this by default if response is not sent
 // or if it doesn't hit a route
-app.use('*', function(req, res, next) {
+app.use('*', function (req, res, next) {
   res.send('this is my default route');
 });
 
@@ -69,18 +70,28 @@ connection
     console.error('Unable to connect to the database:', err);
   });
 
-connection.sync({
-  force: true,
-  logging: console.log
-})
-.then(() => {
-  return User.create({
+const userData = [
+  {
     firstName: 'Glauber',
     city: 'Porto Alegre',
     email: 'glauber.righes@gmail.com',
     password: 'my-password!@#'
-  });
+  },
+  {
+    firstName: 'Preta',
+    city: 'Porto Alegre',
+    email: 'miau.righes@gmail.com',
+    password: 'miau'
+  }
+];
+
+connection.sync({
+  force: true,
+  logging: console.log
 })
-.catch((err) => {
-  console.log('err', err);
-});
+  .then(() => {
+    return Promise.map(userData, user => User.create(user))
+  })
+  .catch((err) => {
+    console.log('err', err);
+  });
