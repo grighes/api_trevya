@@ -14,9 +14,11 @@ const Promise = require('bluebird');
 
 // calling models just to inserting fake data
 var User = require('./models/User');
+var Travel = require('./models/Travel');
 
-//routes
+// routes
 var usersRouter = require('./routes/users');
+var travelsRouter = require('./routes/travels');
 
 var app = express();
 var helmet = require('helmet');
@@ -54,6 +56,7 @@ app.use((req, res, next) => {
 
 // API routers to serve up data from the server
 app.use('/users', usersRouter);
+app.use('/travels', travelsRouter);
 
 // all routes will eventually hit this by default if response is not sent
 // or if it doesn't hit a route
@@ -85,12 +88,26 @@ const userData = [
   }
 ];
 
+const travelData = [
+  {
+    travelName: 'My Trip',
+    status: 'In Progress',
+    budget: 9.332,
+    beginDate: '2017-10-13',
+    endDate: '2017-11-24',
+    cityStart: 'Porto Alegre',
+  }
+];
+
 connection.sync({
   force: true,
   logging: console.log
 })
   .then(() => {
     return Promise.map(userData, user => User.create(user))
+  })
+  .then(() => {
+    return Promise.map(travelData, travel => Travel.create(travel))
   })
   .catch((err) => {
     console.log('err', err);
