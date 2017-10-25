@@ -10,7 +10,6 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  console.log('posting heere')
   Travel.findCreateFind({
     where: req.body
   })

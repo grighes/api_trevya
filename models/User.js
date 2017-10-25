@@ -1,32 +1,23 @@
 const Sequelize = require('sequelize')
 const connection = require('../db')
-const bcrypt = require('bcrypt')
+// const bcrypt = require('bcrypt')
 
 const User = connection.define('User', {
-  firstName: {
+  userName: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: true
   },
   city: {
     type: Sequelize.STRING,
-    allowNull: false
-  },
-  userName: {
-    type: Sequelize.STRING
+    allowNull: true
   },
   email: {
     type: Sequelize.STRING,
     unique: true
   },
-  password: {
-    type: Sequelize.TEXT,
+  tokenId: {
+    type: Sequelize.STRING,
   }
-}, {
-    hooks: {
-      afterValidate: (user) => {
-        user.password = bcrypt.hashSync(user.password, 8);
-      }
-    }
-  })
+});
 
 module.exports = User;
