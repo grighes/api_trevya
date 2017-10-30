@@ -9,8 +9,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var errorHandler = require('errorhandler');
 var pg = require('pg');
-const Promise = require('bluebird');
+var Promise = require('bluebird');
 var connection = require('./db');
+var helmet = require('helmet');
+
+const app = express();
 // var associations = require('./associations');
 
 // calling models just to inserting fake data
@@ -22,19 +25,11 @@ var TravelUser = require('./models/TravelUser');
 var usersRouter = require('./routes/users');
 var travelsRouter = require('./routes/travels');
 
-var app = express();
-var helmet = require('helmet');
-
 const PORT = 3002;
 app.listen(PORT, () => console.log('listening on port ' + PORT));
 
 app.use(compression());
 app.use(helmet());
-
-// HTTP access control (CORS)
-// The Cross-Origin Resource Sharing (CORS) mechanism gives web servers cross-domain access controls,
-// which enable secure cross-domain data transfers. Modern browsers use CORS in an API container
-// such as XMLHttpRequest or Fetch - to mitigate risks of cross-origin HTTP requests
 app.use(cors())
 
 // error handling middleware should be loaded after the loading the routes
@@ -51,18 +46,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
 // API routers to serve up data from the server
 app.use('/users', usersRouter);
 app.use('/travels', travelsRouter);
 
 // all routes will eventually hit this by default if response is not sent
-// or if it doesn't hit a route
 app.use('*', function (req, res, next) {
   res.send('this is my default route');
 });
@@ -100,6 +88,22 @@ const travelData = [
   },
   {
     travelName: 'Canada',
+    status: 'In Progress',
+    budget: 16.000,
+    beginDate: '2017-09-01',
+    endDate: '2017-11-01',
+    cityStart: 'Porto Alegre',
+  },
+  {
+    travelName: 'Alabama',
+    status: 'In Progress',
+    budget: 25.000,
+    beginDate: '2017-10-13',
+    endDate: '2017-11-24',
+    cityStart: 'Porto Alegre',
+  },
+  {
+    travelName: 'Lisboa',
     status: 'In Progress',
     budget: 16.000,
     beginDate: '2017-09-01',
