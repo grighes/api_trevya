@@ -1,7 +1,7 @@
-const Sequelize = require('sequelize');
+// const Sequelize = require('sequelize');
 const connection = require('../db');
-var User = require('../models/User');
-var Travel = require('../models/Travel');
+const User = require('../models/User');
+const Travel = require('../models/Travel');
 
 // We'll define associations after we import them here
 // Travel.belongsToMany(User, { through: 'travelsUser' });

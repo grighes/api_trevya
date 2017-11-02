@@ -1,27 +1,27 @@
 const router = require('express').Router();
 const User = require('../models/User');
 
-var HTTPStatus = require('http-status');
+// const HTTPStatus = require('http-status');
 
-const defaultResponse = (data, statusCode = HTTPStatus.OK) => ({
-  data,
-  statusCode,
-});
+// const defaultResponse = (data, statusCode = HTTPStatus.OK) => ({
+//   data,
+//   statusCode,
+// });
 
-const errorResponse = (message, statusCode = HttpStatus.BAD_REQUEST) => defaultResponse({
-  error: message,
-}, statusCode);
+// const errorResponse = (message, statusCode = HTTPStatus.BAD_REQUEST) => defaultResponse({
+//   error: message,
+// }, statusCode);
 
 router
-  .get('/', function (req, res, next) {
+  .get('/', (req, res, next) => {
     User.findAll()
       .then(res.send.bind(res))
-      .catch(next)
+      .catch(next);
   })
 
-  .post('/', function (req, res, next) {
+  .post('/', (req, res, next) => {
     User.findCreateFind({
-      where: req.body
+      where: req.body,
     })
       .then(res.send.bind(res))
       .catch(next);
@@ -30,7 +30,7 @@ router
   .put('/', (req, res, next) => {
     User.update(
       { tokenId: req.query.uid },
-      { where: { email: req.query.email } }
+      { where: { email: req.query.email } },
     )
       .then(res.send.bind(res))
       .catch(next);

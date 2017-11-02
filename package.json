@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint **/*.js",
+    "lint-fix": "eslint **/*.js --fix"
   },
   "author": "",
   "license": "ISC",
@@ -23,5 +25,12 @@
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.13.5",
     "serve-favicon": "^2.4.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.10.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0"
   }
 }

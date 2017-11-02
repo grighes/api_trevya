@@ -1,31 +1,31 @@
-const Sequelize = require('sequelize')
-const connection = require('../db')
+const Sequelize = require('sequelize');
+const connection = require('../db');
 
 const Travel = connection.define('Travel', {
   travelName: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   status: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   },
   budget: {
     type: Sequelize.DOUBLE,
-    allowNull: false
+    allowNull: false,
   },
   beginDate: {
     type: Sequelize.DATEONLY,
-    allowNull: false
+    allowNull: false,
   },
   endDate: {
     type: Sequelize.DATEONLY,
-    allowNull: false
+    allowNull: false,
   },
   cityStart: {
     type: Sequelize.STRING,
-    allowNull: false
-  }
+    allowNull: false,
+  },
 });
 
 module.exports = Travel;
