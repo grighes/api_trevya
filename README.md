@@ -1,6 +1,12 @@
-## Trevya API
+# Trevya API
 
-PostgreSQL main commands:
+## Start
+
+* ```npm run start```
+## Deploy
+
+* ```now -e NODE_ENV="production"```
+## PostgreSQL main commands:
 
 * ```sudo -i -u postgres```
 * ```psql```
