@@ -19,7 +19,13 @@ if (app.get('env') === 'development') {
 } else {
   console.log('production');
   const ELEPHANTSQL = "postgres://kuscqoyh:TO_t9aFPnVTla5lcz4XtqetMCjvHXhqS@tantor.db.elephantsql.com:5432/kuscqoyh";
-  connection = new Sequelize(ELEPHANTSQL, {});
+  connection = new Sequelize(ELEPHANTSQL, {
+    pool: {
+      max: 5,
+      min: 0,
+      idle: 10000,
+    },
+  });
 }
 
 module.exports = connection;

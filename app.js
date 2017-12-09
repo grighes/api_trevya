@@ -24,6 +24,8 @@ var TravelUser = require('./models/TravelUser');
 // routes
 var usersRouter = require('./routes/users');
 var travelsRouter = require('./routes/travels');
+var spentsRouter = require('./routes/spents');
+var localsRouter = require('./routes/locals');
 
 const PORT = 3002;
 app.listen(PORT, () => console.log('listening on port ' + PORT));
@@ -41,7 +43,7 @@ if (app.get('env') === 'development') {
 // uncomment after placing your favicon in /public
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'trevya.png')));
-app.use(logger('dev'))  // combined
+app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -49,9 +51,11 @@ app.use(cookieParser());
 // API routers to serve up data from the server
 app.use('/users', usersRouter);
 app.use('/travels', travelsRouter);
+app.use('/spents', spentsRouter);
+app.use('/locals', localsRouter);
 
 // all routes will eventually hit this by default if response is not sent
-app.use('*', function (req, res, next) {
+app.use('*', function(req, res, next) {
   res.send('this is my default route');
 });
 
@@ -60,7 +64,7 @@ connection
   .then(() => {
     console.log('Connection has been established successfully.');
   })
-  .catch(err => {
+  .catch((err) => {
     console.error('Unable to connect to the database:', err);
   });
 
@@ -70,20 +74,20 @@ if (app.get('env') === 'development') {
     {
       userName: 'Glauber',
       city: 'Porto Alegre',
-      email: 'glauber.righes@gmail.com'
+      email: 'glauber.righes@gmail.com',
     },
     {
       userName: 'Preta',
       city: 'Porto Alegre',
-      email: 'miau.righes@gmail.com'
-    }
+      email: 'miau.righes@gmail.com',
+    },
   ];
 
   const travelData = [
     {
       travelName: 'NY',
       status: 'In Progress',
-      budget: 25.000,
+      budget: 25000,
       beginDate: '2017-10-13',
       endDate: '2017-11-24',
       cityStart: 'Porto Alegre',
@@ -91,7 +95,7 @@ if (app.get('env') === 'development') {
     {
       travelName: 'Canada',
       status: 'In Progress',
-      budget: 16.000,
+      budget: 12000,
       beginDate: '2017-09-01',
       endDate: '2017-11-01',
       cityStart: 'Porto Alegre',
@@ -99,7 +103,7 @@ if (app.get('env') === 'development') {
     {
       travelName: 'Alabama',
       status: 'In Progress',
-      budget: 25.000,
+      budget: 42000,
       beginDate: '2017-10-13',
       endDate: '2017-11-24',
       cityStart: 'Porto Alegre',
@@ -107,7 +111,7 @@ if (app.get('env') === 'development') {
     {
       travelName: 'Lisboa',
       status: 'In Progress',
-      budget: 16.000,
+      budget: 8000,
       beginDate: '2017-09-01',
       endDate: '2017-11-01',
       cityStart: 'Porto Alegre',
@@ -117,26 +121,27 @@ if (app.get('env') === 'development') {
   const travelUser = [
     {
       UserId: 1,
-      TravelId: 1
+      TravelId: 1,
     },
     {
       UserId: 2,
-      TravelId: 2
-    }
+      TravelId: 2,
+    },
   ];
   connection.sync({
     force: true,
     logging: console.log
   })
     .then(() => {
-      return Promise.map(userData, user => User.create(user))
+      return Promise.map(userData, user => User.create(user));
     })
     .then(() => {
-      return Promise.map(travelData, travel => Travel.create(travel))
+      return Promise.map(travelData, travel => Travel.create(travel));
     })
     .then(() => {
-      return Promise.map(travelUser, travelUser => TravelUser.create(travelUser))
+      return Promise.map(travelUser, travelUser => TravelUser.create(travelUser));
     })
+
     .catch((err) => {
       console.log('err', err);
     });
